@@ -1,18 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация и регистрация</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
+    <div class="container">
+        <h1>Авторизация и регистрация</h1>
+        
+        <div id="authContainer">
+            <div id="loginSection">
+                <h2>Вход</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginLogin">Логин:</label>
+                        <input type="login" id="loginLogin" name="login" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Пароль:</label>
+                        <input type="password" id="loginPassword" name="password" required>
+                    </div>
+                    <button type="submit">Войти</button>
+                </form>
+                <p>Нет аккаунта? <button id="showRegister">Зарегистрироваться</button></p>
+            </div>
 
-<h2>HTML Forms</h2>
+            <div id="registerSection" style="display: none;">
+                <h2>Регистрация</h2>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerEmail">Электронная почта:</label>
+                        <input type="email" id="registerEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerUsername">Логин:</label>
+                        <input type="text" id="registerUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Пароль:</label>
+                        <input type="password" id="registerPassword" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerName">Имя:</label>
+                        <input type="text" id="registerName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPhone">Номер телефона:</label>
+                        <input type="tel" id="registerPhone" name="phone" required>
+                    </div>
+                    <button type="submit">Зарегистрироваться</button>
+                </form>
+                <p>Уже есть аккаунт? <button id="showLogin">Войти</button></p>
+            </div>
+        </div>
+    </div>
 
-<form action="/action_page.php">
-  <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname" value="John"><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname" value="Doe"><br><br>
-  <input type="submit" value="Submit">
-</form> 
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = {
+                'Логин': this.login.value,
+                'Пароль': this.password.value
+            };
+            fetch('http://85.193.82.65:7777/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Успех:', data);
+                // Здесь можно добавить логику для успешного входа
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+        });
 
-<p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = {
+                'Эл.почта': this.email.value,
+                'Пароль': this.username.value,
+                'ФИО': this.password.value,
+                'Логин': this.name.value,
+                'Номер телефона': this.phone.value
+            };
+            fetch('http://85.193.82.65:7777/users/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Успех:', data);
+                // Здесь можно добавить логику для успешной регистрации
+            })
+            .catch((error) => {
+                console.error('Ошибка:', error);
+            });
+        });
 
+        document.getElementById('showRegister').addEventListener('click', function() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('registerSection').style.display = 'block';
+        });
+
+        document.getElementById('showLogin').addEventListener('click', function() {
+            document.getElementById('registerSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
+        });
+    </script>
 </body>
 </html>
