@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Биржевые Тикеры</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Биржевые Тикеры</h1>
+        <input type="text" id="ticker-input" placeholder="Введите биржевой тикер">
+        <div id="suggestions"></div>
+        
+        <div class="price-div inter-block">
+            <button id="price-button">Стоимость</button>
+            <input type="text" id="price" class="readonly" readonly>
+        </div>
+        
+        <div class="dividend-div inter-block">
+            <button id="dividend-button">Дивиденды</button>
+            <input type="text" id="dividend" placeholder="Значение" class="readonly" readonly>
+            <input type="text" id="currency" placeholder="Валюта" class="readonly" readonly>
+        </div>
+        
+        <div class="subscription-div inter-block">
+            <input type="text" id="price-change-step" placeholder="Шаг изменения стоимости">
+            <button id="subscribe-button" class="button-action">Подписаться</button>
+        </div>
+    </div>
+
+    <button id="logout-button">Выход</button> <!-- Кнопка выхода -->
+
+    <script>
+        const userToken = document.cookie.split('; ').find(row => row.startsWith('user_access_token='));
+        if (!userToken) {
+            // window.location.href = 'index.html';
+        }
+
+        const tickers = ["AAPL", "MSFT", "AMZN", "GOOGL", "FB", "TSLA", "BRK.B", "NVDA", "JPM", "JNJ", "V", "PG", "UNH", "HD", "DIS", "PYPL", "VZ", "NFLX", "INTC", "CMCSA"]; // Топ-30 тикеров
+
+        window.onload= function (){
+
+        document.getElementById('ticker-input').addEventListener('input', function() {
+            const input = this.value.toUpperCase();
+            const suggestions = tickers.filter(ticker => ticker.startsWith(input));
+            document.getElementById('suggestions').innerHTML = suggestions.map(ticker => `<div>${ticker}</div>`).join('');
+        });
+
+        document.getElementById('suggestions').addEventListener('click', function(event) {
+            if (event.target.tagName === 'DIV') {
+                document.getElementById('ticker-input').value = event.target.innerText;
+                document.getElementById('suggestions').innerHTML = '';
+            }
+        });
+
+        document.getElementById('price-button').addEventListener('click', function() {
+            const ticker = document.getElementById('ticker-input').value;
+            fetch(`http://85.193.82.65:7777/subscriptions/last_prices/${ticker}`)
+                .then(response => response.json())
+                .then(data => {
+                    const price = data[0].price.units + '.' + (data[0].price.nano / 1000000000).toFixed(3).slice(2);
+                    document.getElementById('price').value = price;
+                });
+        });
+
+        document.getElementById('dividend-button').addEventListener('click', function() {
+            const ticker = document.getElementById('ticker-input').value;
+            fetch(`http://85.193.82.65:7777/subscriptions/dividends/${ticker}`)
+                .then(response => response.json())
+                .then(data => {
+                    const dividendNet = data[0].dividendNet;
+                    document.getElementById('dividend').value = dividendNet.units + '.' + (dividendNet.nano / 1000000000).toFixed(3).slice(2);
+                    document.getElementById('currency').value = dividendNet.currency;
+                });
+        });
+
+        document.getElementById('subscribe-button').addEventListener('click', function() {
+            const ticker = document.getElementById('ticker-input').value;
+            const priceChangeStep = document.getElementById('price-change-step').value;
+
+            fetch('http://85.193.82.65:7777/subscriptions/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Cookie' : 'user_access_token=' + userToken
+                },
+                body: JSON.stringify({ ticker_name: ticker, price_change_step: parseFloat(priceChangeStep) })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.detail === "Подписка на эту бумагу уже существует") {
+                    fetch('http://85.193.82.65:7777/subscriptions/update', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ ticker_name: ticker, price_change_step: parseFloat(priceChangeStep) })
+                    });
+                }
+            });
+        });
+
+        // Обработчик для кнопки "Выход"
+        document.getElementById('logout-button').addEventListener('click', function() {
+            // Удаляем куки
+            document.cookie = "user_access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            // Переходим на страницу авторизации
+            window.location.href = 'index.html';
+        });
+
+    };
+    </script>
+</body>
+</html>

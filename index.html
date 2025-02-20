@@ -65,16 +65,19 @@
                 'Пароль': this.password.value
             };
             fetch('http://85.193.82.65:7777/users/login', {
+                // mode:  'no-cors',
                 method: 'POST',
                 headers: {
+                    // 'Content-Type': 'application/json'
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(formData)
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Успех:', data);
+                console.log('Успех:', data.access_token);
                 // Здесь можно добавить логику для успешного входа
+                window.location.href = 'dashboard.html';
             })
             .catch((error) => {
                 console.error('Ошибка:', error);
@@ -101,6 +104,7 @@
             .then(data => {
                 console.log('Успех:', data);
                 // Здесь можно добавить логику для успешной регистрации
+                window.location.href = 'dashboard.html';
             })
             .catch((error) => {
                 console.error('Ошибка:', error);

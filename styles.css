@@ -34,8 +34,59 @@ input {
     border-radius: 5px;
 }
 
-button {
+/* button {
     width: 100%;
+    padding: 10px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+} */
+
+button:hover {
+    background-color: #4cae4c;
+}
+
+p {
+    text-align: center;
+}
+
+#suggestions {
+    border: 1px solid #ccc;
+    max-height: 100px;
+    overflow-y: auto;
+    position: absolute;
+    background: white;
+    z-index: 1;
+}
+
+#suggestions div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#suggestions div:hover {
+    background: #f0f0f0;
+}
+
+.inter-block {
+    margin: 2em;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.readonly {
+    background-color: #ccc;
+}
+
+button-action {
+    /* background-color: coral; */
+}
+
+button {
+    /* width: 100%; */
     padding: 10px;
     background-color: #5cb85c;
     color: white;
@@ -44,10 +95,20 @@ button {
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #4cae4c;
+#logout-button {
+    position: absolute; /* Позволяет позиционировать кнопку относительно ближайшего родителя с position: relative */
+    top: 20px; /* Отступ от верхней границы */
+    right: 20px; /* Отступ от правой границы */
+    padding: 10px 15px; /* Внутренние отступы */
+    background-color: #d9534f; /* Цвет фона кнопки */
+    color: white; /* Цвет текста */
+    border: none; /* Убираем рамку */
+    border-radius: 5px; /* Скругление углов */
+    cursor: pointer; /* Курсор в виде указателя при наведении */
+    font-size: 16px; /* Размер шрифта */
+    transition: background-color 0.3s; /* Плавный переход цвета фона */
 }
 
-p {
-    text-align: center;
+#logout-button:hover {
+    background-color: #c9302c; /* Цвет фона при наведении */
 }
