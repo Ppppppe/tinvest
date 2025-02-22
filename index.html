@@ -16,7 +16,7 @@
                 <form id="loginForm">
                     <div class="form-group">
                         <label for="loginLogin">Логин:</label>
-                        <input type="login" id="loginLogin" name="login" required>
+                        <input type="text" id="loginLogin" name="login" required>
                     </div>
                     <div class="form-group">
                         <label for="loginPassword">Пароль:</label>
@@ -64,7 +64,7 @@
                 'Логин': this.login.value,
                 'Пароль': this.password.value
             };
-            fetch('http://85.193.82.65:7777/users/login', {
+            fetch('http://85.193.82.65/users/login', {
                 // mode:  'no-cors',
                 method: 'POST',
                 headers: {
@@ -73,14 +73,20 @@
                 },
                 body: JSON.stringify(formData)
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(`Ошибка ${response.status}: ${text}`);
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log('Успех:', data.access_token);
-                // Здесь можно добавить логику для успешного входа
                 window.location.href = 'dashboard.html';
             })
             .catch((error) => {
-                console.error('Ошибка:', error);
+                alert(error.message);
             });
         });
 
@@ -88,26 +94,33 @@
             event.preventDefault();
             const formData = {
                 'Эл.почта': this.email.value,
-                'Пароль': this.username.value,
-                'ФИО': this.password.value,
-                'Логин': this.name.value,
+                'Пароль': this.password.value,
+                'ФИО': this.name.value,
+                'Логин': this.username.value,
                 'Номер телефона': this.phone.value
             };
-            fetch('http://85.193.82.65:7777/users/register', {
+            fetch('http://85.193.82.65/users/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(formData)
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(`Ошибка ${response.status}: ${text}`);
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log('Успех:', data);
                 // Здесь можно добавить логику для успешной регистрации
                 window.location.href = 'dashboard.html';
             })
             .catch((error) => {
-                console.error('Ошибка:', error);
+                alert(error.message);
             });
         });
 
