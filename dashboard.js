@@ -140,7 +140,7 @@ window.onload = function () {
         }
 
         fetch('http://85.193.82.65/users/notifications/settings/1/', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
