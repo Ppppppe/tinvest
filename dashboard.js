@@ -39,6 +39,10 @@ window.onload = function () {
 
     document.getElementById('news-button').addEventListener('click', function () {
         const ticker = document.getElementById('ticker-input').value;
+        if (ticker === "") {
+            alert("Укажите тикер!");
+            return;
+        }
         fetch(`http://85.193.82.65/subscriptions/news/${ticker}`)
             .then(response => {
                 if (!response.ok) {
@@ -135,7 +139,7 @@ window.onload = function () {
             notification_channel: document.getElementById("notification_channel").value
         }
 
-        fetch('http://85.193.82.65/users/notifications/settings//', {
+        fetch('http://85.193.82.65/users/notifications/settings/1/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

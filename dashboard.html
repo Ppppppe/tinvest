@@ -11,8 +11,10 @@
     <div class="column">
         <div class="container">
             <h1>Биржевые тикеры</h1>
-            <input type="text" id="ticker-input" placeholder="Введите биржевой тикер">
-            <button id="news-button">Последние новости</button>
+            <div class="inter-block">
+                <input type="text" id="ticker-input" placeholder="Введите биржевой тикер">
+                <button id="news-button" class="button-action">Новости</button>
+            </div>
             <div id="suggestions"></div>
 
             <div class="price-div inter-block">
@@ -42,15 +44,15 @@
                 <div class="column">
                     <div class="subscription-settings-div inter-block">
                         <label for="notify_start_time">Присылать уведомления с</label>
-                        <input type="time" id="notify_start_time" name="notify_start_time">
+                        <input class="notify-field" type="time" id="notify_start_time" name="notify_start_time">
                     </div>
                     <div class="subscription-settings-div inter-block">
                         <label for="notify_end_time">Присылать уведомления до</label>
-                        <input type="time" id="notify_end_time" name="notify_end_time">
+                        <input class="notify-field" type="time" id="notify_end_time" name="notify_end_time">
                     </div>
                     <div class="subscription-settings-div inter-block">
                         <label for="max_repeats">Максимум повторений</label>
-                        <input type="number" id="max_repeats" name="max_repeats">
+                        <input class="notify-field" type="number" id="max_repeats" name="max_repeats">
                     </div>
                 </div>
                 <div class="column">
