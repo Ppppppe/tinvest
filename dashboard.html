@@ -7,300 +7,311 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="container">
-    <h1>Биржевые тикеры</h1>
-    <input type="text" id="ticker-input" placeholder="Введите биржевой тикер">
-    <div id="suggestions"></div>
+<div class="content">
+    <div class="column">
+        <div class="container">
+            <h1>Биржевые тикеры</h1>
+            <input type="text" id="ticker-input" placeholder="Введите биржевой тикер">
+            <div id="suggestions"></div>
 
-    <div class="price-div inter-block">
-        <button id="price-button">Стоимость</button>
-        <input type="text" id="price" class="readonly" readonly>
+            <div class="price-div inter-block">
+                <button id="price-button">Стоимость</button>
+                <input type="text" id="price" class="readonly field" readonly>
+            </div>
+
+            <div class="dividend-div inter-block">
+                <button id="dividend-button">Дивиденды</button>
+                <input type="text" id="dividend" placeholder="Значение" class="readonly field" readonly>
+                <input type="text" id="currency" placeholder="Валюта" class="readonly field" readonly>
+            </div>
+
+            <div class="subscription-div inter-block">
+                <input type="text" id="price-change-step" placeholder="Шаг изменения стоимости">
+                <button id="subscribe-button" class="button-action">Подписаться</button>
+            </div>
+        </div>
+        <div class="container" id="subscriptions">
+            <h1>Список подписок</h1>
+        </div>
+    </div>
+    <div class="column">
+        <form id="notifications_form" class="container">
+            <h1>Настройки уведомлений</h1>
+            <div class="content">
+                <div class="column">
+                    <div class="subscription-settings-div inter-block">
+                        <label for="notify_start_time">Присылать уведомления с</label>
+                        <input type="time" id="notify_start_time" name="notify_start_time">
+                    </div>
+                    <div class="subscription-settings-div inter-block">
+                        <label for="notify_end_time">Присылать уведомления до</label>
+                        <input type="time" id="notify_end_time" name="notify_end_time">
+                    </div>
+                    <div class="subscription-settings-div inter-block">
+                        <label for="max_repeats">Максимум повторений</label>
+                        <input type="number" id="max_repeats" name="max_repeats">
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="subscription-settings-div inter-block">
+                        <label for="notify_dividends">Уведомлять о дивидентах</label>
+                        <input type="checkbox" id="notify_dividends" name="notify_dividends">
+                    </div>
+                    <div class="subscription-settings-div inter-block">
+                        <label for="notify_news">Уведомлять о новостях</label>
+                        <input type="checkbox" id="notify_news" name="notify_news">
+                    </div>
+                    <div class="subscription-settings-div inter-block">
+                        <label for="notification_channel">Канал для уведомлений</label>
+                        <select id="notification_channel" name="notification_channel">
+                            <option value="sms">sms</option>
+                            <option value="email">email</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="subscription-settings-div inter-block">
+                <button type="submit">Сохранить</button>
+            </div>
+        </form>
+        <div class="container" id="notifications_history">
+            <h1>Отправленные уведомления</h1>
+        </div>
     </div>
 
-    <div class="dividend-div inter-block">
-        <button id="dividend-button">Дивиденды</button>
-        <input type="text" id="dividend" placeholder="Значение" class="readonly" readonly>
-        <input type="text" id="currency" placeholder="Валюта" class="readonly" readonly>
-    </div>
+    <button id="logout-button">Выход</button> <!-- Кнопка выхода -->
 
-    <div class="subscription-div inter-block">
-        <input type="text" id="price-change-step" placeholder="Шаг изменения стоимости">
-        <button id="subscribe-button" class="button-action">Подписаться</button>
-    </div>
-</div>
-<div class="container" id="subscriptions">
-    <h1>Список подписок</h1>
-</div>
-<div class="container" id="notifications_history">
-    <h1>Отправленные уведомления</h1>
-</div>
-<form id="notifications_form" class="container">
-    <h1>Настройки уведомлений</h1>
-    <div class="subscription-settings-div inter-block">
-        <label for="notify_start_time">Присылать уведомления с</label>
-        <input type="time" id="notify_start_time" name="notify_start_time">
-    </div>
-    <div class="subscription-settings-div inter-block">
-        <label for="notify_end_time">Присылать уведомления до</label>
-        <input type="time" id="notify_end_time" name="notify_end_time">
-    </div>
-    <div class="subscription-settings-div inter-block">
-        <label for="max_repeats">Максимум повторений</label>
-        <input type="number" id="max_repeats" name="max_repeats">
-    </div>
-    <div class="subscription-settings-div inter-block">
-        <label for="notify_dividends">Уведомлять о дивидентах</label>
-        <input type="checkbox" id="notify_dividends" name="notify_dividends">
-    </div>
-    <div class="subscription-settings-div inter-block">
-        <label for="notify_news">Уведомлять о новостях</label>
-        <input type="checkbox" id="notify_news" name="notify_news">
-    </div>
-    <div class="subscription-settings-div inter-block">
-        <label for="notification_channel">Канал для уведомлений</label>
-        <select id="notification_channel" name="notification_channel">
-            <option value="sms">sms</option>
-            <option value="email">email</option>
-        </select>
-    </div>
-    <div class="subscription-settings-div inter-block">
-        <button type="submit">Сохранить</button>
-    </div>
-</form>
+    <script>
+        const userToken = document.cookie.split('; ').find(row => row.startsWith('user_access_token='));
+        if (!userToken) {
+            // window.location.href = 'index.html';
+        }
 
-<button id="logout-button">Выход</button> <!-- Кнопка выхода -->
+        const tickers = ["AAPL", "MSFT", "AMZN", "GOOGL", "FB", "TSLA", "BRK.B", "NVDA", "JPM", "JNJ", "V", "PG", "UNH", "HD", "DIS", "PYPL", "VZ", "NFLX", "INTC", "CMCSA"]; // Топ-30 тикеров
 
-<script>
-    const userToken = document.cookie.split('; ').find(row => row.startsWith('user_access_token='));
-    if (!userToken) {
-        // window.location.href = 'index.html';
-    }
+        window.onload = function () {
 
-    const tickers = ["AAPL", "MSFT", "AMZN", "GOOGL", "FB", "TSLA", "BRK.B", "NVDA", "JPM", "JNJ", "V", "PG", "UNH", "HD", "DIS", "PYPL", "VZ", "NFLX", "INTC", "CMCSA"]; // Топ-30 тикеров
-
-    window.onload = function () {
-
-        document.getElementById('ticker-input').addEventListener('input', function () {
-            const input = this.value.toUpperCase();
-            const suggestions = tickers.filter(ticker => ticker.startsWith(input));
-            document.getElementById('suggestions').innerHTML = suggestions.map(ticker => `<div>${ticker}</div>`).join('');
-        });
-
-        document.getElementById('suggestions').addEventListener('click', function (event) {
-            if (event.target.tagName === 'DIV') {
-                document.getElementById('ticker-input').value = event.target.innerText;
-                document.getElementById('suggestions').innerHTML = '';
-            }
-        });
-
-        document.getElementById('price-button').addEventListener('click', function () {
-            const ticker = document.getElementById('ticker-input').value;
-            fetch(`http://85.193.82.65/subscriptions/last_prices/${ticker}`)
-                .then(response => {
-                    if (!response.ok) {
-                        return response.text().then(text => {
-                            throw new Error(`Ошибка ${response.status}: ${text}`);
-                        });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const price = data[0].price.units + '.' + (data[0].price.nano / 1000000000).toFixed(3).slice(2);
-                    document.getElementById('price').value = price;
-                }).catch(err => alert(err.message));
-        });
-
-        document.getElementById('dividend-button').addEventListener('click', function () {
-            const ticker = document.getElementById('ticker-input').value;
-            fetch(`http://85.193.82.65/subscriptions/dividends/${ticker}`)
-                .then(response => {
-                    if (!response.ok) {
-                        return response.text().then(text => {
-                            throw new Error(`Ошибка ${response.status}: ${text}`);
-                        });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const dividendNet = data[0].dividendNet;
-                    document.getElementById('dividend').value = dividendNet.units + '.' + (dividendNet.nano / 1000000000).toFixed(3).slice(2);
-                    document.getElementById('currency').value = dividendNet.currency;
-                }).catch(error => alert(error.message));
-        });
-
-        document.getElementById('subscribe-button').addEventListener('click', function () {
-            const ticker = document.getElementById('ticker-input').value;
-            const priceChangeStep = document.getElementById('price-change-step').value;
-
-            fetch('http://85.193.82.65/subscriptions/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // 'Cookie' : 'user_access_token=' + userToken
-                },
-                body: JSON.stringify({ticker_name: ticker, price_change_step: parseFloat(priceChangeStep)})
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.text().then(text => {
-                            throw new Error(`Ошибка ${response.status}: ${text}`);
-                        });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.detail === "Подписка на эту бумагу уже существует") {
-                        fetch('http://85.193.82.65/subscriptions/update', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ticker_name: ticker, price_change_step: parseFloat(priceChangeStep)})
-                        }).then(response => {
-                            if (!response.ok) {
-                                return response.text().then(text => {
-                                    throw new Error(`Ошибка ${response.status}: ${text}`);
-                                });
-                            }
-                            return response.json();
-                        }).catch(error => alert(error.message));
-                    }
-                }).catch(error => alert(error.message));
-        });
-
-        // Обработчик для кнопки "Выход"
-        document.getElementById('logout-button').addEventListener('click', function () {
-            // Удаляем куки
-            document.cookie = "user_access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            // Переходим на страницу авторизации
-            window.location.href = 'index.html';
-        });
-
-        // обновление настроек уведомлений
-        document.getElementById("notifications_form").addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            const formData = {
-                notify_start_time: document.getElementById("notify_start_time").value,
-                notify_end_time: document.getElementById("notify_end_time").value,
-                max_repeats: document.getElementById("max_repeats").value,
-                notify_dividends: document.getElementById("notify_dividends").checked,
-                notify_news: document.getElementById("notify_news").checked,
-                notification_channel: document.getElementById("notification_channel").value
-            }
-
-            fetch('http://85.193.82.65/users/notifications/settings//', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.text().then(text => {
-                            throw new Error(`Ошибка ${response.status}: ${text}`);
-                        });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Успех:', data);
-                    alert('Успех!');
-                })
-                .catch((error) => {
-                    alert(error.message);
-                });
-        });
-    };
-    document.addEventListener("DOMContentLoaded", async function () {
-        try {
-            const response = await fetch("http://85.193.82.65/subscriptions");
-            if (!response.ok) {
-                alert(`Ошибка: ${response.statusText}`);
-                return;
-            }
-
-            const data = await response.json();
-
-            const container = document.getElementById("subscriptions");
-            data.forEach(item => {
-                const itemDiv = document.createElement("div");
-                // itemDiv.classList.add("inter-block");
-                itemDiv.classList.add("subscriptions-list-div");
-
-                Object.entries(item).forEach(([key, value]) => {
-                    const fieldDiv = document.createElement("div");
-                    fieldDiv.classList.add("field");
-                    itemDiv.classList.add("inter-block");
-
-                    const keyFieldDiv = document.createElement("div");
-                    keyFieldDiv.textContent = key;
-                    const valueFieldDiv = document.createElement("div");
-                    valueFieldDiv.textContent = value;
-                    fieldDiv.appendChild(keyFieldDiv);
-                    fieldDiv.appendChild(valueFieldDiv);
-                    if (key === "ticker_name") {
-                        keyFieldDiv.textContent = "Название тикера";
-                    }
-                    if (key === "price_change_step") {
-                        keyFieldDiv.textContent = "Шаг цены";
-                    }
-                    itemDiv.appendChild(fieldDiv);
-                });
-
-                container.appendChild(itemDiv);
+            document.getElementById('ticker-input').addEventListener('input', function () {
+                const input = this.value.toUpperCase();
+                const suggestions = tickers.filter(ticker => ticker.startsWith(input));
+                document.getElementById('suggestions').innerHTML = suggestions.map(ticker => `<div>${ticker}</div>`).join('');
             });
-        } catch (error) {
-            console.error("Ошибка загрузки данных:", error);
-        }
-    });
-    document.addEventListener("DOMContentLoaded", async function () {
-        try {
-            const response = await fetch("http://85.193.82.65/users/history-notifications//");
-            if (!response.ok) {
-                alert(`Ошибка: ${response.statusText}`);
-                return;
+
+            document.getElementById('suggestions').addEventListener('click', function (event) {
+                if (event.target.tagName === 'DIV') {
+                    document.getElementById('ticker-input').value = event.target.innerText;
+                    document.getElementById('suggestions').innerHTML = '';
+                }
+            });
+
+            document.getElementById('price-button').addEventListener('click', function () {
+                const ticker = document.getElementById('ticker-input').value;
+                fetch(`http://85.193.82.65/subscriptions/last_prices/${ticker}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => {
+                                throw new Error(`Ошибка ${response.status}: ${text}`);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const price = data[0].price.units + '.' + (data[0].price.nano / 1000000000).toFixed(3).slice(2);
+                        document.getElementById('price').value = price;
+                    }).catch(err => alert(err.message));
+            });
+
+            document.getElementById('dividend-button').addEventListener('click', function () {
+                const ticker = document.getElementById('ticker-input').value;
+                fetch(`http://85.193.82.65/subscriptions/dividends/${ticker}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => {
+                                throw new Error(`Ошибка ${response.status}: ${text}`);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const dividendNet = data[0].dividendNet;
+                        document.getElementById('dividend').value = dividendNet.units + '.' + (dividendNet.nano / 1000000000).toFixed(3).slice(2);
+                        document.getElementById('currency').value = dividendNet.currency;
+                    }).catch(error => alert(error.message));
+            });
+
+            document.getElementById('subscribe-button').addEventListener('click', function () {
+                const ticker = document.getElementById('ticker-input').value;
+                const priceChangeStep = document.getElementById('price-change-step').value;
+
+                fetch('http://85.193.82.65/subscriptions/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // 'Cookie' : 'user_access_token=' + userToken
+                    },
+                    body: JSON.stringify({ticker_name: ticker, price_change_step: parseFloat(priceChangeStep)})
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => {
+                                throw new Error(`Ошибка ${response.status}: ${text}`);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.detail === "Подписка на эту бумагу уже существует") {
+                            fetch('http://85.193.82.65/subscriptions/update', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ticker_name: ticker, price_change_step: parseFloat(priceChangeStep)})
+                            }).then(response => {
+                                if (!response.ok) {
+                                    return response.text().then(text => {
+                                        throw new Error(`Ошибка ${response.status}: ${text}`);
+                                    });
+                                }
+                                return response.json();
+                            }).catch(error => alert(error.message));
+                        }
+                    }).catch(error => alert(error.message));
+            });
+
+            // Обработчик для кнопки "Выход"
+            document.getElementById('logout-button').addEventListener('click', function () {
+                // Удаляем куки
+                document.cookie = "user_access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                // Переходим на страницу авторизации
+                window.location.href = 'index.html';
+            });
+
+            // обновление настроек уведомлений
+            document.getElementById("notifications_form").addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const formData = {
+                    notify_start_time: document.getElementById("notify_start_time").value,
+                    notify_end_time: document.getElementById("notify_end_time").value,
+                    max_repeats: document.getElementById("max_repeats").value,
+                    notify_dividends: document.getElementById("notify_dividends").checked,
+                    notify_news: document.getElementById("notify_news").checked,
+                    notification_channel: document.getElementById("notification_channel").value
+                }
+
+                fetch('http://85.193.82.65/users/notifications/settings//', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => {
+                                throw new Error(`Ошибка ${response.status}: ${text}`);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Успех:', data);
+                        alert('Успех!');
+                    })
+                    .catch((error) => {
+                        alert(error.message);
+                    });
+            });
+        };
+        document.addEventListener("DOMContentLoaded", async function () {
+            try {
+                const response = await fetch("http://85.193.82.65/subscriptions");
+                if (!response.ok) {
+                    alert(`Ошибка: ${response.statusText}`);
+                    return;
+                }
+
+                const data = await response.json();
+
+                const container = document.getElementById("subscriptions");
+                data.forEach(item => {
+                    const itemDiv = document.createElement("div");
+                    // itemDiv.classList.add("inter-block");
+                    itemDiv.classList.add("subscriptions-list-div");
+
+                    Object.entries(item).forEach(([key, value]) => {
+                        const fieldDiv = document.createElement("div");
+                        fieldDiv.classList.add("field");
+                        itemDiv.classList.add("inter-block");
+
+                        const keyFieldDiv = document.createElement("div");
+                        keyFieldDiv.textContent = key;
+                        const valueFieldDiv = document.createElement("div");
+                        valueFieldDiv.textContent = value;
+                        fieldDiv.appendChild(keyFieldDiv);
+                        fieldDiv.appendChild(valueFieldDiv);
+                        if (key === "ticker_name") {
+                            keyFieldDiv.textContent = "Название тикера";
+                        }
+                        if (key === "price_change_step") {
+                            keyFieldDiv.textContent = "Шаг цены";
+                        }
+                        itemDiv.appendChild(fieldDiv);
+                    });
+
+                    container.appendChild(itemDiv);
+                });
+            } catch (error) {
+                console.error("Ошибка загрузки данных:", error);
             }
+        });
+        document.addEventListener("DOMContentLoaded", async function () {
+            try {
+                const response = await fetch("http://85.193.82.65/users/history-notifications//");
+                if (!response.ok) {
+                    alert(`Ошибка: ${response.statusText}`);
+                    return;
+                }
 
-            const data = await response.text();
-            // const data = await response.json();
+                const data = await response.text();
+                // const data = await response.json();
 
-            const container = document.getElementById("notifications_history");
-            const itemDiv = document.createElement("div");
-            itemDiv.textContent = data;
-            container.appendChild(itemDiv);
-            // data.forEach(item => {
-            //     const itemDiv = document.createElement("div");
-            //     // itemDiv.classList.add("inter-block");
-            //     itemDiv.classList.add("subscriptions-list-div");
-            //
-            //     Object.entries(item).forEach(([key, value]) => {
-            //         const fieldDiv = document.createElement("div");
-            //         fieldDiv.classList.add("field");
-            //         itemDiv.classList.add("inter-block");
-            //
-            //         const keyFieldDiv = document.createElement("div");
-            //         keyFieldDiv.textContent = key;
-            //         const valueFieldDiv = document.createElement("div");
-            //         valueFieldDiv.textContent = value;
-            //         fieldDiv.appendChild(keyFieldDiv);
-            //         fieldDiv.appendChild(valueFieldDiv);
-            //         if (key === "ticker_name") {
-            //             keyFieldDiv.textContent = "Название тикера";
-            //         }
-            //         if (key === "price_change_step") {
-            //             keyFieldDiv.textContent = "Шаг цены";
-            //         }
-            //         itemDiv.appendChild(fieldDiv);
-            //     });
-            //
-            //     container.appendChild(itemDiv);
-            // });
-        } catch (error) {
-            console.error("Ошибка загрузки данных:", error);
-        }
-    });
-</script>
+                const container = document.getElementById("notifications_history");
+                const itemDiv = document.createElement("div");
+                itemDiv.textContent = data;
+                container.appendChild(itemDiv);
+                // data.forEach(item => {
+                //     const itemDiv = document.createElement("div");
+                //     // itemDiv.classList.add("inter-block");
+                //     itemDiv.classList.add("subscriptions-list-div");
+                //
+                //     Object.entries(item).forEach(([key, value]) => {
+                //         const fieldDiv = document.createElement("div");
+                //         fieldDiv.classList.add("field");
+                //         itemDiv.classList.add("inter-block");
+                //
+                //         const keyFieldDiv = document.createElement("div");
+                //         keyFieldDiv.textContent = key;
+                //         const valueFieldDiv = document.createElement("div");
+                //         valueFieldDiv.textContent = value;
+                //         fieldDiv.appendChild(keyFieldDiv);
+                //         fieldDiv.appendChild(valueFieldDiv);
+                //         if (key === "ticker_name") {
+                //             keyFieldDiv.textContent = "Название тикера";
+                //         }
+                //         if (key === "price_change_step") {
+                //             keyFieldDiv.textContent = "Шаг цены";
+                //         }
+                //         itemDiv.appendChild(fieldDiv);
+                //     });
+                //
+                //     container.appendChild(itemDiv);
+                // });
+            } catch (error) {
+                console.error("Ошибка загрузки данных:", error);
+            }
+        });
+    </script>
 </body>
 </html>

@@ -5,6 +5,15 @@ body {
     padding: 0;
 }
 
+.content {
+    display: flex;
+    gap: 20px;
+}
+
+.column {
+    flex: 1;
+}
+
 .container {
     max-width: 600px;
     margin: 50px auto;
@@ -75,6 +84,10 @@ p {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+}
+
+.field {
+    margin-left: 5px;
 }
 
 .readonly {
