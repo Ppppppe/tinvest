@@ -121,3 +121,18 @@ button {
 #logout-button:hover {
     background-color: #c9302c; /* Цвет фона при наведении */
 }
+
+#news-button {
+    position: absolute; /* Позволяет позиционировать кнопку относительно ближайшего родителя с position: relative */
+    top: 20px; /* Отступ от верхней границы */
+    right: 20px; /* Отступ от правой границы */
+    padding: 10px 15px; /* Внутренние отступы */
+    background-color: #d9534f; /* Цвет фона кнопки */
+    color: white; /* Цвет текста */
+    border: none; /* Убираем рамку */
+    border-radius: 5px; /* Скругление углов */
+    cursor: pointer; /* Курсор в виде указателя при наведении */
+    font-size: 16px; /* Размер шрифта */
+    transition: background-color 0.3s; /* Плавный переход цвета фона */
+    margin-left: 20px;
+}
