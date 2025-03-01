@@ -97,10 +97,10 @@ window.onload = function () {
                 return response.json();
             })
             .then(data => {
-                if (data.detail == null){
+                if (data == null || !("detail" in data)){
                     return;
                 }
-                const detail = data.detail.json();
+                const detail = JSON.parse(data.detail);
                 if (detail.text === "Подписка на эту бумагу уже существует") {
                     fetch('http://85.193.82.65/subscriptions/update', {
                         method: 'POST',
