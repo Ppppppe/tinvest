@@ -113,6 +113,11 @@ button {
     position: absolute;
     top: 20px;
     right: 20px;
+    gap: 10px;
+    display: flex;
+}
+
+#account-button {
     padding: 10px 15px;
     color: white;
     border: none;
@@ -120,13 +125,17 @@ button {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s;
-}
-
-#account-button {
     background-color: #5cb85c;
 }
 
 #logout-button {
+    padding: 10px 15px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
     background-color: #d9534f;
 }
 

@@ -126,6 +126,10 @@ window.onload = function () {
         window.location.href = 'index.html';
     });
 
+    document.getElementById('account-button').addEventListener('click', function () {
+        window.open("me.html", "_blank");
+    });
+
     // обновление настроек уведомлений
     document.getElementById("notifications_form").addEventListener("submit", function (event) {
         event.preventDefault();
