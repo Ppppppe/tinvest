@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отображение данных</title>
+    <script>
+        async function fetchData() {
+            try {
+                let response = await fetch('http://85.193.82.65/users/me');
+                if (!response.ok) {
+                    throw new Error('Ошибка сети');
+                }
+                let data = await response.json();
+                displayData(data);
+            } catch (error) {
+                console.error('Ошибка:', error);
+                document.getElementById('data').innerText = 'Ошибка загрузки данных';
+            }
+        }
+
+        function displayData(data) {
+            document.getElementById('data').innerHTML = `
+                <p><strong>ID:</strong> ${data.ID}</p>
+                <p><strong>ФИО:</strong> ${data.ФИО}</p>
+                <p><strong>Логин:</strong> ${data.Логин}</p>
+                <p><strong>Номер телефона:</strong> ${data["Номер телефона"]}</p>
+                <p><strong>Почта:</strong> ${data.Почта}</p>
+            `;
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchData);
+    </script>
+</head>
+<body>
+<h1>Данные пользователя</h1>
+<div id="data">Загрузка данных...</div>
+</body>
+</html>

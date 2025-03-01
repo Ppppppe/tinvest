@@ -139,7 +139,7 @@ window.onload = function () {
             notification_channel: document.getElementById("notification_channel").value
         }
 
-        fetch('http://85.193.82.65/users/notifications/settings/1/', {
+        fetch('http://85.193.82.65/users/notifications/settings/', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 document.addEventListener("DOMContentLoaded", async function () {
     try {
-        const response = await fetch("http://85.193.82.65/users/history-notifications//");
+        const response = await fetch("http://85.193.82.65/users/history-notifications/");
         if (!response.ok) {
             alert(`Ошибка: ${response.statusText}`);
             return;
@@ -251,3 +251,28 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error("Ошибка загрузки данных:", error);
     }
 });
+
+async function fetchData() {
+    try {
+        let response = await fetch('URL_ЭНДПОИНТА');
+        if (!response.ok) {
+            alert(`Ошибка: ${response.statusText}`);
+            return;
+        }
+        let data = await response.json();
+        fillForm(data);
+    } catch (error) {
+        alert(`Ошибка: ${error}`);
+    }
+}
+
+function fillForm(data) {
+    document.getElementById('notify_start_time').value = data.notify_start_time;
+    document.getElementById('notify_end_time').value = data.notify_end_time;
+    document.getElementById('max_repeats').value = data.max_repeats;
+    document.getElementById('notify_dividends').checked = data.notify_dividends;
+    document.getElementById('notify_news').checked = data.notify_news;
+    document.getElementById('notification_channel').value = data.notification_channel || '';
+}
+
+document.addEventListener("DOMContentLoaded", fetchData);
