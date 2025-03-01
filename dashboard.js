@@ -102,12 +102,12 @@ window.onload = function () {
                 }
                 const detail = JSON.parse(data.detail);
                 if (detail.text === "Подписка на эту бумагу уже существует") {
-                    fetch('http://85.193.82.65/subscriptions/update', {
+                    fetch(`http://85.193.82.65/subscriptions/update/${detail.id}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({subscription_id: detail.id, ticker_name: ticker, price_change_step: parseFloat(priceChangeStep)})
+                        body: JSON.stringify({ticker_name: ticker, price_change_step: parseFloat(priceChangeStep)})
                     }).then(response => {
                         if (!response.ok) {
                             return response.text().then(text => {
