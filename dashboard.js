@@ -258,7 +258,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 async function fetchData() {
     try {
-        let response = await fetch('URL_ЭНДПОИНТА');
+        let response = await fetch('http://85.193.82.65/users/history-notifications');
         if (!response.ok) {
             alert(`Ошибка: ${response.statusText}`);
             return;
