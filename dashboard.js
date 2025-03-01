@@ -97,13 +97,17 @@ window.onload = function () {
                 return response.json();
             })
             .then(data => {
-                if (data.detail === "Подписка на эту бумагу уже существует") {
+                if (data.detail == null){
+                    return;
+                }
+                const detail = data.detail.json();
+                if (detail.text === "Подписка на эту бумагу уже существует") {
                     fetch('http://85.193.82.65/subscriptions/update', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ticker_name: ticker, price_change_step: parseFloat(priceChangeStep)})
+                        body: JSON.stringify({subscription_id: detail.id, ticker_name: ticker, price_change_step: parseFloat(priceChangeStep)})
                     }).then(response => {
                         if (!response.ok) {
                             return response.text().then(text => {
