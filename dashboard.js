@@ -217,44 +217,26 @@ document.addEventListener("DOMContentLoaded", async function () {
             return;
         }
 
-        const data = await response.text();
-        // const data = await response.json();
-
-        const container = document.getElementById("notifications_history");
-        const itemDiv = document.createElement("div");
-        itemDiv.textContent = data;
-        container.appendChild(itemDiv);
-        // data.forEach(item => {
-        //     const itemDiv = document.createElement("div");
-        //     // itemDiv.classList.add("inter-block");
-        //     itemDiv.classList.add("subscriptions-list-div");
-        //
-        //     Object.entries(item).forEach(([key, value]) => {
-        //         const fieldDiv = document.createElement("div");
-        //         fieldDiv.classList.add("field");
-        //         itemDiv.classList.add("inter-block");
-        //
-        //         const keyFieldDiv = document.createElement("div");
-        //         keyFieldDiv.textContent = key;
-        //         const valueFieldDiv = document.createElement("div");
-        //         valueFieldDiv.textContent = value;
-        //         fieldDiv.appendChild(keyFieldDiv);
-        //         fieldDiv.appendChild(valueFieldDiv);
-        //         if (key === "ticker_name") {
-        //             keyFieldDiv.textContent = "Название тикера";
-        //         }
-        //         if (key === "price_change_step") {
-        //             keyFieldDiv.textContent = "Шаг цены";
-        //         }
-        //         itemDiv.appendChild(fieldDiv);
-        //     });
-        //
-        //     container.appendChild(itemDiv);
-        // });
+        const data = await response.json();
+        displayNotifications(data);
     } catch (error) {
         console.error("Ошибка загрузки данных:", error);
     }
 });
+
+function displayNotifications(notifications) {
+    const tableBody = document.getElementById('notification-list');
+    tableBody.innerHTML = '';
+    notifications.forEach(notification => {
+        const row = `<tr>
+                    <td>${notification.id}</td>
+                    <td>${notification.notification_channel}</td>
+                    <td>${notification.status}</td>
+                    <td>${notification.sent_at}</td>
+                </tr>`;
+        tableBody.innerHTML += row;
+    });
+}
 
 async function fetchData() {
     try {
