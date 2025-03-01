@@ -150,3 +150,17 @@ button {
 .notify-field {
     margin-left: 20px;
 }
+
+.notification-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.notification-table th, .notification-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.notification-table th {
+    background-color: #f4f4f4;
+}
